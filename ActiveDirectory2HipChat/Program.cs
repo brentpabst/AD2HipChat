@@ -1,7 +1,6 @@
-﻿using System;
+﻿using ActiveDirectory2HipChat.Processors;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ActiveDirectory2HipChat
@@ -10,18 +9,21 @@ namespace ActiveDirectory2HipChat
     {
         static void Main(string[] args)
         {
-            // Start Web Server
-                // Display User Table
-                // Display User Sync History
+            // Define the task factory
+            var tasks = new List<Task>();
 
-            // Start AD Sync Processor
-                // Load AD Users into memory
-                // Save New Users or Update Existing Users
+            // Cancellation tokens are a good thing, even if we don't use them all that much
+            var cancellationToken = new CancellationTokenSource();
 
-            // Start HipChat Sync Processor
-                // Load Users Who Changed
-                // Call HipChat And Make Changes
-                // Mark Record As Processed
+            // Add the tasks
+            tasks.Add(Task.Factory.StartNew(() => new AdProcessor().RunAsync(cancellationToken)));
+            tasks.Add(Task.Factory.StartNew(() => new HipchatProcessor().RunAsync(cancellationToken)));
+
+            // Fire them all up and wait for them to complete... this shouldn't happen, otherwise the loops are broken.
+            Task.WaitAll(tasks.ToArray());
+
+            // Blow it all up
+            cancellationToken.Cancel();
         }
     }
 }

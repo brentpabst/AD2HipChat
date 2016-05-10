@@ -64,6 +64,8 @@
       <DependentUpon>201604280245176_SeedModel.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Processors\AdProcessor.cs" />
+    <Compile Include="Processors\HipchatProcessor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IUserService.cs" />
