@@ -1,12 +1,8 @@
 ﻿using ActiveDirectory2HipChat.Directory;
 using ActiveDirectory2HipChat.Services;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using ActiveDirectory2HipChat.Data;
 
 namespace ActiveDirectory2HipChat.Processors
@@ -33,8 +29,6 @@ namespace ActiveDirectory2HipChat.Processors
 
                     // Load AD Users into memory
                     var users = ad.GetAllUsers();
-
-                    throw new ApplicationException("test");
 
                     var db = new DataContext();
 
