@@ -16,8 +16,8 @@ namespace ActiveDirectory2HipChat
             var cancellationToken = new CancellationTokenSource();
 
             // Add the tasks
-            tasks.Add(Task.Factory.StartNew(() => new AdProcessor().Run(cancellationToken)));
-            tasks.Add(Task.Factory.StartNew(() => new HipchatProcessor().RunAsync(cancellationToken)));
+            tasks.Add(Task.Factory.StartNew(() => new AdProcessor().Run(cancellationToken), cancellationToken.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default));
+            tasks.Add(Task.Factory.StartNew(() => new HipchatProcessor().Run(cancellationToken), cancellationToken.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default));
 
             // Fire them all up and wait for them to complete... this shouldn't happen, otherwise the loops are broken.
             Task.WaitAll(tasks.ToArray());

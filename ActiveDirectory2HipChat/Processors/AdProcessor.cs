@@ -21,9 +21,9 @@ namespace ActiveDirectory2HipChat.Processors
             if (intervalConfig > 0) _interval = intervalConfig;
         }
 
-        public void Run(CancellationTokenSource cancellationToken)
+        public void Run(CancellationTokenSource token)
         {
-            while (!cancellationToken.IsCancellationRequested)
+            while (!token.IsCancellationRequested)
             {
                 try
                 {
@@ -33,6 +33,8 @@ namespace ActiveDirectory2HipChat.Processors
 
                     // Load AD Users into memory
                     var users = ad.GetAllUsers();
+
+                    throw new ApplicationException("test");
 
                     var db = new DataContext();
 
@@ -62,7 +64,7 @@ namespace ActiveDirectory2HipChat.Processors
                 {
                     // Shit blew up, stop the app
                     Console.WriteLine("AD Processor - Failed: " + ex.Message);
-                    cancellationToken.Cancel();
+                    token.Cancel();
                 }
             }
         }
