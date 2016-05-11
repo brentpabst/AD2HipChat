@@ -4,23 +4,30 @@ using System;
 using System.Configuration;
 using System.Threading;
 using ActiveDirectory2HipChat.Data;
+using NLog;
 
 namespace ActiveDirectory2HipChat.Processors
 {
     public class AdProcessor
     {
+        private static readonly Logger Logger = LogManager.GetLogger("Ad2HipChat");
         private readonly int _interval = 60000;
 
         public AdProcessor()
         {
             var intervalConfig = int.Parse(ConfigurationManager.AppSettings["ad.syncInterval"]);
+            Logger.Debug("AD Interval from app.config: {0}", intervalConfig);
+
             if (intervalConfig > 0) _interval = intervalConfig;
+            Logger.Debug("AD Interval: {0}", _interval);
         }
 
         public void Run(CancellationTokenSource token)
         {
             while (!token.IsCancellationRequested)
             {
+                Logger.Debug("AD Processor Running");
+                Logger.Trace("Cancellation Requested? " + token.IsCancellationRequested);
                 try
                 {
                     // TODO: DI this stuff
@@ -45,19 +52,18 @@ namespace ActiveDirectory2HipChat.Processors
                         };
 
                         db.Users.Add(usr);
-
-                        Console.WriteLine(user.DisplayName);
                     }
 
                     db.SaveChanges();
 
-                    Console.WriteLine("AD Processor - Sleeping");
+                    Logger.Debug("AD Processor Sleeping");
                     Thread.Sleep(_interval);
                 }
                 catch (Exception ex)
                 {
-                    // Shit blew up, stop the app
-                    Console.WriteLine("AD Processor - Failed: " + ex.Message);
+                    Logger.Error(ex, "AD Processor Failed");
+
+                    Logger.Trace("Calling for Token Cancellation");
                     token.Cancel();
                 }
             }
