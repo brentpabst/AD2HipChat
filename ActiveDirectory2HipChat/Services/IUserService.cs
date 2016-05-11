@@ -6,6 +6,6 @@ namespace ActiveDirectory2HipChat.Services
 {
     public interface IUserService
     {
-        Task<IEnumerable<UserPrincipal>> GetAllUsers();
+        IEnumerable<UserPrincipal> GetAllUsers();
     }
 }

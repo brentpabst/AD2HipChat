@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.DirectoryServices.AccountManagement;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ActiveDirectory2HipChat.Services
 {
-    public class UserService:IUserService
+    public class UserService : IUserService
     {
         private readonly IDirectoryContext _directoryContext;
 
@@ -16,15 +15,16 @@ namespace ActiveDirectory2HipChat.Services
                 _directoryContext = directoryContext;
         }
 
-        public Task<IEnumerable<UserPrincipal>> GetAllUsers()
+        public IEnumerable<UserPrincipal> GetAllUsers()
         {
             using (var ctx = _directoryContext.LoadAndConnect())
             {
-                var filter = new UserPrincipal(ctx) { DisplayName = "*" };
+                // Only load users with a display name and valid email addresses
+                var filter = new UserPrincipal(ctx) { DisplayName = "*", EmailAddress = "*@*" };
                 using (var search = new PrincipalSearcher(filter))
                 {
                     var users = search.FindAll().OfType<UserPrincipal>();
-                    return Task.FromResult(users);
+                    return users.ToList();
                 }
             }
         }

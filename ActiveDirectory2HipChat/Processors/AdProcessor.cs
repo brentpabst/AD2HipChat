@@ -7,20 +7,21 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using ActiveDirectory2HipChat.Data;
 
 namespace ActiveDirectory2HipChat.Processors
 {
     public class AdProcessor
     {
-        private int interval = 60000;
+        private readonly int _interval = 60000;
 
         public AdProcessor()
         {
             var intervalConfig = int.Parse(ConfigurationManager.AppSettings["ad.syncInterval"]);
-            if (intervalConfig > 0) interval = intervalConfig;
+            if (intervalConfig > 0) _interval = intervalConfig;
         }
 
-        public async Task RunAsync(CancellationTokenSource cancellationToken)
+        public void Run(CancellationTokenSource cancellationToken)
         {
             while (!cancellationToken.IsCancellationRequested)
             {
@@ -31,16 +32,31 @@ namespace ActiveDirectory2HipChat.Processors
                     var ad = new UserService(dir);
 
                     // Load AD Users into memory
-                    var users = await ad.GetAllUsers();
+                    var users = ad.GetAllUsers();
+
+                    var db = new DataContext();
 
                     // Save New Users or Update Existing Users
                     foreach (var user in users)
                     {
+                        var usr = new User()
+                        {
+                            Principal = user.UserPrincipalName,
+                            Email = user.EmailAddress,
+                            FirstName = user.GivenName,
+                            LastName = user.Surname,
+                            IsEnabled = user.Enabled ?? false
+                        };
+
+                        db.Users.Add(usr);
+
                         Console.WriteLine(user.DisplayName);
                     }
 
+                    db.SaveChanges();
+
                     Console.WriteLine("AD Processor - Sleeping");
-                    Thread.Sleep(interval);
+                    Thread.Sleep(_interval);
                 }
                 catch (Exception ex)
                 {
