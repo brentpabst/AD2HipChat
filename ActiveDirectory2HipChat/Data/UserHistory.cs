@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace ActiveDirectory2HipChat.Data
+namespace Ad2HipChat.Data
 {
     public class UserHistory
     {

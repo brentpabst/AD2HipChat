@@ -3,11 +3,11 @@ using System.Configuration;
 using System.Threading;
 using NLog;
 
-namespace ActiveDirectory2HipChat.Processors
+namespace Ad2HipChat.Processors
 {
     public class HipchatProcessor
     {
-        private static readonly Logger Logger = LogManager.GetLogger("Ad2HipChat");
+        private static readonly Logger Logger = LogManager.GetLogger("Ad2HipChat.HipChatProcessor");
         private readonly int _interval = 60000;
 
         public HipchatProcessor()

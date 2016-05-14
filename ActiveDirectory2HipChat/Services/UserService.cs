@@ -1,9 +1,9 @@
-﻿using ActiveDirectory2HipChat.Directory;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.DirectoryServices.AccountManagement;
 using System.Linq;
+using Ad2HipChat.Directory;
 
-namespace ActiveDirectory2HipChat.Services
+namespace Ad2HipChat.Services
 {
     public class UserService : IUserService
     {

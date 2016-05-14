@@ -1,17 +1,17 @@
-﻿using ActiveDirectory2HipChat.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Threading;
-using ActiveDirectory2HipChat.Data;
+using Ad2HipChat.Data;
+using Ad2HipChat.Services;
 using NLog;
 
-namespace ActiveDirectory2HipChat.Processors
+namespace Ad2HipChat.Processors
 {
     public class AdProcessor
     {
-        private static readonly Logger Logger = LogManager.GetLogger("Ad2HipChat");
+        private static readonly Logger Logger = LogManager.GetLogger("Ad2HipChat.AdProcessor");
         private readonly int _interval = 60000;
         private readonly IUserService _userService;
         private readonly IUserRepository _userRepository;

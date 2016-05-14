@@ -1,7 +1,7 @@
 ﻿using System.Configuration;
 using System.DirectoryServices.AccountManagement;
 
-namespace ActiveDirectory2HipChat.Directory
+namespace Ad2HipChat.Directory
 {
     public class DirectoryContext : IDirectoryContext
     {

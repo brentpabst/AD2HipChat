@@ -2,7 +2,7 @@
 using System.Data.Entity;
 using System.Threading.Tasks;
 
-namespace ActiveDirectory2HipChat.Data
+namespace Ad2HipChat.Data
 {
     public class UserRepository : IUserRepository
     {

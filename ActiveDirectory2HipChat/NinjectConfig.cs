@@ -1,10 +1,10 @@
 ﻿using System.Data.Entity;
-using ActiveDirectory2HipChat.Data;
-using ActiveDirectory2HipChat.Directory;
-using ActiveDirectory2HipChat.Services;
+using Ad2HipChat.Data;
+using Ad2HipChat.Directory;
+using Ad2HipChat.Services;
 using Ninject.Modules;
 
-namespace ActiveDirectory2HipChat
+namespace Ad2HipChat
 {
     public class NinjectConfig : NinjectModule
     {

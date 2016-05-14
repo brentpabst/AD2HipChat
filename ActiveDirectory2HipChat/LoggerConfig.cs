@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NLog;
+﻿using NLog;
 using NLog.Config;
 using NLog.Targets;
 
-namespace ActiveDirectory2HipChat
+namespace Ad2HipChat
 {
     public static class LoggerConfig
     {

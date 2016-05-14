@@ -1,15 +1,15 @@
-﻿using ActiveDirectory2HipChat.Processors;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Threading;
 using System.Threading.Tasks;
-using ActiveDirectory2HipChat.Data;
-using ActiveDirectory2HipChat.Migrations;
-using ActiveDirectory2HipChat.Services;
+using Ad2HipChat.Data;
+using Ad2HipChat.Migrations;
+using Ad2HipChat.Processors;
+using Ad2HipChat.Services;
 using Ninject;
 using NLog;
 
-namespace ActiveDirectory2HipChat
+namespace Ad2HipChat
 {
     class Program
     {

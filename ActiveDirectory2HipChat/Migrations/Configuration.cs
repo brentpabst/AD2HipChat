@@ -1,12 +1,8 @@
-using ActiveDirectory2HipChat.Data;
+using System.Data.Entity.Migrations;
+using Ad2HipChat.Data;
 
-namespace ActiveDirectory2HipChat.Migrations
+namespace Ad2HipChat.Migrations
 {
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
-
     internal sealed class Configuration : DbMigrationsConfiguration<DataContext>
     {
         public Configuration()

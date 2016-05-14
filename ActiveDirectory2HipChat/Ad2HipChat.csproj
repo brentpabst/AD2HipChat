@@ -7,8 +7,8 @@
     <ProjectGuid>{FDA5DEEC-6E3A-4110-89F5-DEF28E697461}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ActiveDirectory2HipChat</RootNamespace>
-    <AssemblyName>ActiveDirectory2HipChat</AssemblyName>
+    <RootNamespace>Ad2HipChat</RootNamespace>
+    <AssemblyName>Ad2HipChat</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

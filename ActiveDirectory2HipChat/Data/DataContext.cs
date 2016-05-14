@@ -1,7 +1,7 @@
 ﻿using System.Data.Entity;
 using NLog;
 
-namespace ActiveDirectory2HipChat.Data
+namespace Ad2HipChat.Data
 {
     public class DataContext : DbContext
     {
