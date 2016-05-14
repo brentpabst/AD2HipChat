@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using ActiveDirectory2HipChat.Data;
+using ActiveDirectory2HipChat.Services;
+using Ninject;
 using NLog;
 
 namespace ActiveDirectory2HipChat
@@ -15,6 +18,13 @@ namespace ActiveDirectory2HipChat
             // Start Logging
             LoggerConfig.StartLogging();
 
+            // Handle Dependency Injection
+            IKernel kernel = new StandardKernel(new NinjectConfig());
+            var userRepository = kernel.Get<IUserRepository>();
+            var userService = kernel.Get<IUserService>();
+
+            // Run!!!
+
             Logger.Info("Starting Ad2HipChat Integration");
 
             Logger.Trace("Building task factory");
@@ -24,7 +34,7 @@ namespace ActiveDirectory2HipChat
             var cancellationToken = new CancellationTokenSource();
 
             Logger.Trace("Adding AD Processor");
-            tasks.Add(Task.Factory.StartNew(() => new AdProcessor().Run(cancellationToken), cancellationToken.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default));
+            tasks.Add(Task.Factory.StartNew(() => new AdProcessor(userService, userRepository).Run(cancellationToken), cancellationToken.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default));
 
             Logger.Trace("Adding HipChat Processor");
             tasks.Add(Task.Factory.StartNew(() => new HipchatProcessor().Run(cancellationToken), cancellationToken.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default));

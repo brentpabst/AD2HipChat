@@ -13,6 +13,6 @@ namespace ActiveDirectory2HipChat.Data
         {
         }
 
-        public DbSet<User> Users { get; set; }
+        public virtual DbSet<User> Users { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace ActiveDirectory2HipChat.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(ActiveDirectory2HipChat.Data.DataContext context)
