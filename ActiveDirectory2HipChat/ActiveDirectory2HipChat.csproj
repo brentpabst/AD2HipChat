@@ -66,23 +66,12 @@
     <Compile Include="Data\IRepository.cs" />
     <Compile Include="Data\IUserRepository.cs" />
     <Compile Include="Data\User.cs" />
+    <Compile Include="Data\UserHistory.cs" />
     <Compile Include="Data\UserRepository.cs" />
     <Compile Include="Directory\DirectoryContext.cs" />
     <Compile Include="Directory\DirectorySettings.cs" />
     <Compile Include="Directory\IDirectoryContext.cs" />
     <Compile Include="LoggerConfig.cs" />
-    <Compile Include="Migrations\201604280245176_SeedModel.cs" />
-    <Compile Include="Migrations\201604280245176_SeedModel.Designer.cs">
-      <DependentUpon>201604280245176_SeedModel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605140054176_UserSyncFields.cs" />
-    <Compile Include="Migrations\201605140054176_UserSyncFields.Designer.cs">
-      <DependentUpon>201605140054176_UserSyncFields.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605140209090_SyncedOnNullable.cs" />
-    <Compile Include="Migrations\201605140209090_SyncedOnNullable.Designer.cs">
-      <DependentUpon>201605140209090_SyncedOnNullable.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="NinjectConfig.cs" />
     <Compile Include="Processors\AdProcessor.cs" />
@@ -97,17 +86,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201604280245176_SeedModel.resx">
-      <DependentUpon>201604280245176_SeedModel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605140054176_UserSyncFields.resx">
-      <DependentUpon>201605140054176_UserSyncFields.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605140209090_SyncedOnNullable.resx">
-      <DependentUpon>201605140209090_SyncedOnNullable.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

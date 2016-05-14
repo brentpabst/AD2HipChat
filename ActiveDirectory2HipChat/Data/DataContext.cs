@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Entity;
+using NLog;
 
 namespace ActiveDirectory2HipChat.Data
 {
-    public class DataContext: DbContext
+    public class DataContext : DbContext
     {
+        private static readonly Logger Logger = LogManager.GetLogger("Ad2HipChat");
+
         public DataContext() : base("DataContext")
         {
+
         }
 
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserHistory> UserHistory { get; set; }
     }
 }

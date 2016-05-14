@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -6,7 +7,7 @@ namespace ActiveDirectory2HipChat.Data
 {
     public class User
     {
-        [Required, Key]
+        [Key]
         public int Id { get; set; }
         [Required]
         public string Principal { get; set; }
@@ -14,14 +15,13 @@ namespace ActiveDirectory2HipChat.Data
         public string LastName { get; set; }
         [Required]
         public string Email { get; set; }
-        [Required, DefaultValue(false)]
+        [DefaultValue(false)]
         public bool IsEnabled { get; set; }
-        [Required]
         public DateTime AddedOn { get; set; }
-        [Required]
         public DateTime UpdatedOn { get; set; }
         public DateTime? SyncedOn { get; set; }
-        [Required, DefaultValue(false)]
+        [DefaultValue(false)]
         public bool IsSynced { get; set; }
+        public virtual ICollection<UserHistory> History { get; set; }
     }
 }

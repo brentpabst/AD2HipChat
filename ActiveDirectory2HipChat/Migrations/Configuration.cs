@@ -1,3 +1,5 @@
+using ActiveDirectory2HipChat.Data;
+
 namespace ActiveDirectory2HipChat.Migrations
 {
     using System;
@@ -5,14 +7,14 @@ namespace ActiveDirectory2HipChat.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<ActiveDirectory2HipChat.Data.DataContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<DataContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(ActiveDirectory2HipChat.Data.DataContext context)
+        protected override void Seed(DataContext context)
         {
             //  This method will be called after migrating to the latest version.
 

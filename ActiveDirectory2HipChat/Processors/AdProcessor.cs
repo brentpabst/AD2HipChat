@@ -1,5 +1,6 @@
 ﻿using ActiveDirectory2HipChat.Services;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Threading;
@@ -58,7 +59,15 @@ namespace ActiveDirectory2HipChat.Processors
                                 IsEnabled = user.Enabled ?? false,
                                 IsSynced = false,
                                 AddedOn = DateTime.UtcNow,
-                                UpdatedOn = DateTime.UtcNow
+                                UpdatedOn = DateTime.UtcNow,
+                                History = new List<UserHistory>() { new UserHistory()
+                                {
+                                   ChangedOn = DateTime.UtcNow,
+                                    FirstName = user.GivenName,
+                                    LastName = user.Surname,
+                                    Email = user.EmailAddress,
+                                    IsEnabled = user.Enabled ?? false
+                                }}
                             };
                             Logger.Trace("Adding new user " + user.UserPrincipalName);
                             await _userRepository.Save(u);
@@ -81,6 +90,15 @@ namespace ActiveDirectory2HipChat.Processors
                                 dbUser.LastName = user.Surname;
                                 dbUser.UpdatedOn = DateTime.UtcNow;
                                 dbUser.IsSynced = false;
+
+                                dbUser.History.Add(new UserHistory
+                                {
+                                    ChangedOn = DateTime.UtcNow,
+                                    FirstName = user.GivenName,
+                                    LastName = user.Surname,
+                                    Email = user.EmailAddress,
+                                    IsEnabled = user.Enabled ?? false
+                                });
 
                                 Logger.Trace("Updating existing user " + user.UserPrincipalName);
                                 await _userRepository.Save(dbUser);

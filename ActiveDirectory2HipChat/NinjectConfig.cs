@@ -6,7 +6,7 @@ using Ninject.Modules;
 
 namespace ActiveDirectory2HipChat
 {
-    public class NinjectConfig:NinjectModule
+    public class NinjectConfig : NinjectModule
     {
         public override void Load()
         {

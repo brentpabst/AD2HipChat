@@ -1,8 +1,10 @@
 ﻿using ActiveDirectory2HipChat.Processors;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Threading;
 using System.Threading.Tasks;
 using ActiveDirectory2HipChat.Data;
+using ActiveDirectory2HipChat.Migrations;
 using ActiveDirectory2HipChat.Services;
 using Ninject;
 using NLog;
@@ -18,14 +20,18 @@ namespace ActiveDirectory2HipChat
             // Start Logging
             LoggerConfig.StartLogging();
 
+            Logger.Info("Starting Ad2HipChat Integration");
+
+            Logger.Debug("Performing database migration");
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<DataContext, Configuration>());
+            Logger.Debug("Database migration complete");
+
             // Handle Dependency Injection
             IKernel kernel = new StandardKernel(new NinjectConfig());
             var userRepository = kernel.Get<IUserRepository>();
             var userService = kernel.Get<IUserService>();
 
             // Run!!!
-
-            Logger.Info("Starting Ad2HipChat Integration");
 
             Logger.Trace("Building task factory");
             var tasks = new List<Task>();
