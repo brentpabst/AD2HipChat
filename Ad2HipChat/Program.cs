@@ -43,7 +43,7 @@ namespace Ad2HipChat
             tasks.Add(Task.Factory.StartNew(() => new AdProcessor(userService, userRepository).Run(cancellationToken), cancellationToken.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default));
 
             Logger.Trace("Adding HipChat Processor");
-            tasks.Add(Task.Factory.StartNew(() => new HipchatProcessor().Run(cancellationToken), cancellationToken.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default));
+            tasks.Add(Task.Factory.StartNew(() => new HipchatProcessor(userRepository).Run(cancellationToken), cancellationToken.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default));
 
             // Fire them all up and wait for them to complete... this shouldn't happen, otherwise the loops are broken.
             Logger.Trace("Running the task factory... firing the missles");

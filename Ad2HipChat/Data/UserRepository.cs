@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Ad2HipChat.Data
@@ -16,6 +18,11 @@ namespace Ad2HipChat.Data
         private DbSet<User> EntitySet()
         {
             return Context.Set<User>();
+        }
+
+        public virtual IEnumerable<User> All()
+        {
+            return EntitySet().Where(u => !u.IsSynced);
         }
 
         public virtual async Task<User> Get(int id)
