@@ -45,13 +45,14 @@ namespace Ad2HipChat.Processors
                     foreach (var user in users)
                     {
                         Logger.Trace("Looking for " + user.UserPrincipalName);
-                        var dbUser = await _userRepository.Get(user.UserPrincipalName);
+                        var dbUser = await _userRepository.Get(user.Guid.Value);
                         if (dbUser == null)
                         {
                             Logger.Trace(user.UserPrincipalName + " Not Found in the database");
                             // New User
                             var u = new User()
                             {
+                                DirectoryUserId = user.Guid.Value,
                                 Principal = user.UserPrincipalName,
                                 Email = user.EmailAddress,
                                 FirstName = user.GivenName,

@@ -37,6 +37,12 @@ namespace Ad2HipChat.Data
             return await EntitySet().FirstOrDefaultAsync(u => u.Principal == principalName);
         }
 
+        public virtual async Task<User> Get(Guid userGuid)
+        {
+            if (userGuid == default(Guid)) throw new ArgumentNullException(nameof(userGuid));
+            return await EntitySet().FirstOrDefaultAsync(u => u.DirectoryUserId == userGuid);
+        }
+
         public virtual async Task<User> Save(User entity)
         {
             if (entity == null)

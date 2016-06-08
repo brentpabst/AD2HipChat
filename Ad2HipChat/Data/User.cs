@@ -10,6 +10,8 @@ namespace Ad2HipChat.Data
         [Key]
         public int Id { get; set; }
         [Required]
+        public Guid DirectoryUserId { get; set; }
+        [Required]
         public string Principal { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

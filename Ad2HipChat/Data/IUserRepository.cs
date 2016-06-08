@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Ad2HipChat.Data
@@ -7,5 +8,6 @@ namespace Ad2HipChat.Data
     {
         IEnumerable<User> All();
         Task<User> Get(string principalName);
+        Task<User> Get(Guid userGuid);
     }
 }
