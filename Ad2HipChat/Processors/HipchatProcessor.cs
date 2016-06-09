@@ -44,9 +44,36 @@ namespace Ad2HipChat.Processors
                     {
                         Logger.Trace("Syncing " + user.Principal);
 
-                        // Call HipChat And Make Changes
+                        // Invite
+                        if (!user.HipChatUserId.HasValue && user.IsEnabled)
+                        {
+                            // POST v2/invite/user
+                            /*
+                             * {
+                                "title":"Title",
+                                "email":"brent.pabst@schooldude.com",
+                                "name":"Brent SD"
+                                }
+                            */
 
+                            // user.HipChatUserId =;
+                        }
 
+                        // Delete
+                        else if (!user.IsEnabled)
+                        {
+                            // DELETE /v2/user/{id_or_email}
+                        }
+
+                        // Get the user from hipchat
+                        // Edit the fields
+
+                        // Edit
+                        else
+                        {
+                            // GET /v2/user/{id_or_email}
+                            // PUT /v2/user/{id_or_email}
+                        }
 
                         Logger.Trace(user.Principal + "is synced with HipChat, storing results...");
 
