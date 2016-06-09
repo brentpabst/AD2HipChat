@@ -6,6 +6,7 @@ using System.Threading;
 using Ad2HipChat.Data;
 using Ad2HipChat.Services;
 using NLog;
+using System.DirectoryServices;
 
 namespace Ad2HipChat.Processors
 {
@@ -44,6 +45,10 @@ namespace Ad2HipChat.Processors
                     // Save New Users or Update Existing Users
                     foreach (var user in users)
                     {
+                        // Title is a stupid hidden property
+                        var e = user.GetUnderlyingObject() as DirectoryEntry;
+                        var title = e?.Properties["title"].Value?.ToString() ?? "";
+
                         Logger.Trace("Looking for " + user.UserPrincipalName);
                         var dbUser = await _userRepository.Get(user.Guid.Value);
                         if (dbUser == null)
@@ -55,6 +60,7 @@ namespace Ad2HipChat.Processors
                                 DirectoryUserId = user.Guid.Value,
                                 Principal = user.UserPrincipalName,
                                 Email = user.EmailAddress,
+                                Title = title,
                                 FirstName = user.GivenName,
                                 LastName = user.Surname,
                                 IsEnabled = user.Enabled ?? false,
@@ -67,6 +73,7 @@ namespace Ad2HipChat.Processors
                                     FirstName = user.GivenName,
                                     LastName = user.Surname,
                                     Email = user.EmailAddress,
+                                    Title = title,
                                     IsEnabled = user.Enabled ?? false
                                 }}
                             };
@@ -81,7 +88,8 @@ namespace Ad2HipChat.Processors
                             if (dbUser.IsEnabled != (user.Enabled ?? false)
                                 || dbUser.Email != user.EmailAddress
                                 || dbUser.FirstName != user.GivenName
-                                || dbUser.LastName != user.Surname)
+                                || dbUser.LastName != user.Surname
+                                || dbUser.Title != title)
                             {
                                 Logger.Trace(user.UserPrincipalName + " database and AD records differ, syncing");
                                 // User has changed
@@ -89,6 +97,7 @@ namespace Ad2HipChat.Processors
                                 dbUser.Email = user.EmailAddress;
                                 dbUser.FirstName = user.GivenName;
                                 dbUser.LastName = user.Surname;
+                                dbUser.Title = title;
                                 dbUser.UpdatedOn = DateTime.UtcNow;
                                 dbUser.IsSynced = false;
 
@@ -98,6 +107,7 @@ namespace Ad2HipChat.Processors
                                     FirstName = user.GivenName,
                                     LastName = user.Surname,
                                     Email = user.EmailAddress,
+                                    Title = title,
                                     IsEnabled = user.Enabled ?? false
                                 });
 

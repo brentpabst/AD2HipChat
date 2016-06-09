@@ -18,6 +18,7 @@ namespace Ad2HipChat.Data
         public string LastName { get; set; }
         [Required]
         public string Email { get; set; }
+        public string Title { get; set; }
         [DefaultValue(false)]
         public bool IsEnabled { get; set; }
         public DateTime AddedOn { get; set; }

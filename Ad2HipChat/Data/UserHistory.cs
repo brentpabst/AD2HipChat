@@ -13,6 +13,7 @@ namespace Ad2HipChat.Data
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
+        public string Title { get; set; }
         public bool IsEnabled { get; set; }
     }
 }
