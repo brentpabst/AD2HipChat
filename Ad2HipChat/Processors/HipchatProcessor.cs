@@ -61,7 +61,7 @@ namespace Ad2HipChat.Processors
                             var request = new JObject
                             {
                                 {"title", user.Title},
-                                {"email", user.Email + ".test"},
+                                {"email", user.Email},
                                 {"name", user.FirstName + " " + user.LastName}
                             };
 
@@ -108,6 +108,12 @@ namespace Ad2HipChat.Processors
                             }
                         }
 
+                        // User never sync'd, should never sync
+                        else if (!user.IsEnabled && !user.IsSynced && !user.HipChatUserId.HasValue)
+                        {
+                            syncedOk = true;
+                        }
+
                         // Edit
                         else
                         {
@@ -133,7 +139,9 @@ namespace Ad2HipChat.Processors
 
                                 hipchatUser["title"] = user.Title;
                                 hipchatUser["name"] = user.FirstName + " " + user.LastName;
-                                hipchatUser["email"] = user.Email + ".test";
+                                hipchatUser["email"] = user.Email;
+
+                                Logger.Trace(hipchatUser.ToString);
 
                                 response = await client.UploadStringTaskAsync(new Uri(uri), "PUT", hipchatUser.ToString());
                                 Logger.Trace(response);
