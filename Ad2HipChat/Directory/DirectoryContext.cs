@@ -13,8 +13,8 @@ namespace Ad2HipChat.Directory
             {
                 Directory = ConfigurationManager.AppSettings["ad.directory"],
                 Container = ConfigurationManager.AppSettings["ad.container"],
-                Username = ConfigurationManager.AppSettings["ad.Username"],
-                Password = ConfigurationManager.AppSettings["ad.Password"]
+                Username = ConfigurationManager.AppSettings["ad.username"],
+                Password = ConfigurationManager.AppSettings["ad.password"]
             };
         }
 
