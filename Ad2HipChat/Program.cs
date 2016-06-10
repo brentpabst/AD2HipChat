@@ -35,7 +35,7 @@ namespace Ad2HipChat
 
             // Run!!!
 
-            Logger.Trace("Building task factory");
+            Logger.Trace("Building task list");
             var tasks = new List<Task>();
 
             Logger.Trace("Defining new cancellation token for all processors");
@@ -49,7 +49,6 @@ namespace Ad2HipChat
             else Logger.Warn("HipChat Sync is disabled by configuration!");
             tasks.Add(new AdProcessor(userService, userRepository).Run(cancellationToken));
 
-            Logger.Trace("Running the task factory... firing the missles");
             try
             {
                 // Fire them all up and wait for them to complete... this shouldn't happen, otherwise the loops are broken.
