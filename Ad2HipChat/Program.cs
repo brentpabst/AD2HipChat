@@ -1,13 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Threading;
 using System.Threading.Tasks;
 using Ad2HipChat.Data;
-using Ad2HipChat.Migrations;
 using Ad2HipChat.Processors;
 using Ad2HipChat.Services;
 using Ninject;
 using NLog;
+using Configuration = Ad2HipChat.Migrations.Configuration;
 
 namespace Ad2HipChat
 {
@@ -39,20 +41,31 @@ namespace Ad2HipChat
             Logger.Trace("Defining new cancellation token for all processors");
             var cancellationToken = new CancellationTokenSource();
 
-            Logger.Trace("Adding AD Processor");
-            tasks.Add(Task.Factory.StartNew(() => new AdProcessor(userService, userRepository).Run(cancellationToken), cancellationToken.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default));
+            if (bool.Parse(ConfigurationManager.AppSettings["hipchat.enableSync"]))
+            {
+                Logger.Warn("Users will be sync'd with HipChat!");
+                tasks.Add(new HipchatProcessor(userRepository).Run(cancellationToken));
+            }
+            else Logger.Warn("HipChat Sync is disabled by configuration!");
+            tasks.Add(new AdProcessor(userService, userRepository).Run(cancellationToken));
 
-            Logger.Trace("Adding HipChat Processor");
-            tasks.Add(Task.Factory.StartNew(() => new HipchatProcessor(userRepository).Run(cancellationToken), cancellationToken.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default));
-
-            // Fire them all up and wait for them to complete... this shouldn't happen, otherwise the loops are broken.
             Logger.Trace("Running the task factory... firing the missles");
-            Task.WaitAll(tasks.ToArray());
+            try
+            {
+                // Fire them all up and wait for them to complete... this shouldn't happen, otherwise the loops are broken.
+                Task.WaitAll(tasks.ToArray());
+            }
+            catch (Exception ex)
+            {
+                Logger.Fatal(ex.Message);
+            }
+            finally
+            {
+                Logger.Info("Stopping Ad2HipChat Integration");
 
-            Logger.Info("Stopping Ad2HipChat Integration");
-
-            Logger.Trace("Cancelling all running cooperative tasks");
-            cancellationToken.Cancel();
+                Logger.Trace("Cancelling all running cooperative tasks");
+                cancellationToken.Cancel();
+            }
 
             Logger.Info("Ad2HipChat Integration Stopped");
         }

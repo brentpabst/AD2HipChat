@@ -7,6 +7,7 @@ using Ad2HipChat.Data;
 using Ad2HipChat.Services;
 using NLog;
 using System.DirectoryServices;
+using System.Threading.Tasks;
 
 namespace Ad2HipChat.Processors
 {
@@ -29,7 +30,7 @@ namespace Ad2HipChat.Processors
             Logger.Debug("AD Interval: {0}", _interval);
         }
 
-        public async void Run(CancellationTokenSource token)
+        public async Task Run(CancellationTokenSource token)
         {
             while (!token.IsCancellationRequested)
             {
@@ -124,16 +125,18 @@ namespace Ad2HipChat.Processors
                     await _userRepository.Commit();
 
                     Logger.Debug("AD Processor Sleeping");
-                    Thread.Sleep(_interval);
+                    await Task.Delay(_interval);
                 }
                 catch (Exception ex)
                 {
+                    Logger.Error(ex.Message);
                     Logger.Error(ex.Message, "AD Processor Failed");
 
                     Logger.Trace("Calling for Token Cancellation");
                     token.Cancel();
                 }
             }
+            Logger.Debug("AD Processor is cancelling...");
         }
     }
 }
